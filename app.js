@@ -1,7 +1,14 @@
+/*
+
+https://stormy-crag-73898.herokuapp.com
+
+
+*/
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose=require("mongoose");
-const _=require("lodash");
+const _ =require("lodash");
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -117,25 +124,23 @@ app.post("/delete",(req,res)=>{
   const listName=req.body.listName;
 
   if(listName==="Today"){
-
     Item.findByIdAndRemove(checkeditemId,(err)=>{
       if(!err){
         console.log("success");
-        if(list)
         res.redirect("/");
       }
     })
   }
   else{ 
-    List.findOneAndUpdate({name:listName},{$pull:{items:{_id:checkeditemId}}},{useFindAndModify:false},(err,foundList)=>{
+    List.findOneAndUpdate({name:listName},{$pull:{items:{_id:checkeditemId}}},{useFindAndModify:false},function(err,foundList){
       if(!err){
-         res.redirect("/"+listName);
+         res.redirect("/"+ listName);
       }
     })
   }
- 
 });
 
 app.listen(process.env.PORT||3000, function() {
   console.log("Server has started successfully");
 });
+  
